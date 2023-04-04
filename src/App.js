@@ -1,24 +1,77 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from "./logo.svg";
+// import "./style.css";
+// import Footer from "./Footer";
+// import Header from "./Header";
+// import Home from "./Home";
 
+// function App() {
+//   return (
+//     <div className="App">
+//       <Header />
+//       <Home />
+//       <Footer />
+//     </div>
+//   );
+// }
+
+// export default App;
+import "./App.css";
+import Navbar from "./Components/Header/Header";
+import Footer from "./Components/Footer/Footer";
+import Home from "./Screens/Home/Home";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./Screens/Auth/Login/Login";
+import ErrorPage from "./Components/ErrorPage/ErrorPage";
+import ProtectedRoute from "./Components/Auth/ProtectedRoute";
+// import ErrorPage from "./Pages/ErrorPage";
+// import ExternalPage from "./Pages/ExternalPage";
+// import AppProvider from "./src/components/Auth/AppProvider";
+// import ProtectedRoute from "./Pages/Auth/ProtectedRoute";
+import { ProvideAuth } from "./Components/Auth/use-auth";
+import Dashboard from "./Screens/Client/Dashboard/Dashboard";
+import Profile from "./Screens/Client/Profile/Profile";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <body>
+      <Router>
+        <ProvideAuth>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/TaaslaLegal/" element={<Home />}></Route>
+            <Route path="/TaaslaLegal/*" element={<ErrorPage />}></Route>
+            <Route path="/TaaslaLegal/home" element={<Home />}></Route>
+            <Route path="/TaaslaLegal/login" element={<Login />}></Route>
+            <Route
+              path="/TaaslaLegal/client/profile"
+              element={<Profile />}
+            ></Route>
+            <Route
+              path="/TaaslaLegal/client"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            ></Route>
+
+            {/* <Route
+              path="/TaaslaLegal/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route path="/TaaslaLegal/*" element={<ErrorPage />}></Route>
+            <Route path="/TaaslaLegal/instagram" element={<ExternalPage />} /> */}
+          </Routes>
+          <footer>
+            <Footer />
+          </footer>
+        </ProvideAuth>
+      </Router>
+    </body>
   );
 }
 

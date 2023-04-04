@@ -1,0 +1,13 @@
+.hero{
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.hero .title{
+    font-size: 4rem;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+}
