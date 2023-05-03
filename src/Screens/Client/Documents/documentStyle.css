@@ -1,0 +1,15 @@
+ul {
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    margin-bottom: 20px;
+}
+
+ul li {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+ul li div:first-child {
+    /* min-width: 30%; */
+}

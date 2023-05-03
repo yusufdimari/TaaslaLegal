@@ -1,8 +1,8 @@
-
-/* Import Google font - Poppins */
+/* 
+Import Google font - Poppins
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+*/
 .brcontainer {
-/* position: relative; */
 max-width: 700px;
 width: 100%;
 background: #fff;
@@ -18,94 +18,92 @@ color: #333;
 font-weight: 500;
 text-align: center;
 }
-.container .form {
-margin-top: 30px;
+form {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    /* align-items: center; */
+    padding: 20px;
+    flex-direction: column;
 }
-.form .input-box {
-width: 100%;
-margin-top: 20px;
+
+.input-box {
+    margin: 10px;
 }
-.input-box label {
-color: #333;
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
-.form :where(.input-box input, .select-box) {
-position: relative;
-height: 50px;
-width: 100%;
-outline: none;
-font-size: 1rem;
-color: #707070;
-margin-top: 8px;
-border: 1px solid #ddd;
-border-radius: 6px;
-padding: 0 15px;
+
+input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-top: 5px;
+    box-sizing: border-box;
 }
-.input-box input:focus {
-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+
+.column {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0;
 }
-.form .column {
-display: flex;
-column-gap: 15px;
+
+.gender-box {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-direction:column;
 }
-.form .gender-box {
-margin-top: 20px;
+.genders{
+    display: flex;
+    flex-direction: row;
+    
 }
-.gender-box h3 {
-color: #333;
-font-size: 1rem;
-font-weight: 400;
-margin-bottom: 8px;
+.gender-option {
+    margin-right: 3rem;
 }
-.form :where(.gender-option, .gender) {
-display: flex;
-align-items: center;
-column-gap: 50px;
-flex-wrap: wrap;
+.business-name {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
-.form .gender {
-column-gap: 5px;
+
+.address {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
-.gender input {
-accent-color: rgb(130, 106, 251);
+
+button[type="submit"] {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #0a60f4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
 }
-.form :where(.gender input, .gender label) {
-cursor: pointer;
-}
-.gender label {
-color: #707070;
-}
-.address :where(input, .select-box) {
-margin-top: 15px;
-}
-.select-box select {
-height: 100%;
-width: 100%;
-outline: none;
-border: none;
-color: #707070;
-font-size: 1rem;
-}
-.form button {
-height: 55px;
-width: 100%;
-color: #fff;
-font-size: 1rem;
-font-weight: 400;
-margin-top: 30px;
-border: none;
-cursor: pointer;
-transition: all 0.2s ease;
-background: #3474e6;
-}
-.form button:hover {
-background: #3474e6;
-}
-/*Responsive*/
-@media screen and (max-width: 500px) {
-.form .column {
-flex-wrap: wrap;
-}
-.form :where(.gender-option, .gender) {
-row-gap: 15px;
-}
+
+@media screen and (max-width: 600px) {
+    .column {
+        flex-direction: column;
+    }
+
+    .business-name,
+    .address {
+        flex-direction: column;
+    }
+
+    input {
+        width: 100%;
+    }
 }
