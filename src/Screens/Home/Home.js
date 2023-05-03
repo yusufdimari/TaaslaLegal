@@ -4,17 +4,23 @@ import "./HomeStyle.css";
 import ProgressBar from "../../Components/ProgressBar/ProgressBar";
 import Blur from "react-blur";
 import { useAuth } from "../../Components/Auth/use-auth";
+import Admin from "../Admin/Admin";
 
 const Home = () => {
   const auth = useAuth();
   console.log("user", auth.user);
-  return (
-    <>
+  
+    return (
+      (auth?.user?.email=="admin@taaslalegal.com")?
+          <Admin />:
+    (
+      <>
       <Hero />
       <FeaturedServices />
       <About />
       <Skills />
-    </>
+      </>
+      )
   );
 };
 

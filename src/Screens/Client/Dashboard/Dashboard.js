@@ -44,7 +44,7 @@ function Dashboard() {
               <i className="fas fa-arrows-alt-v"></i> Request NEW
             </h2>
             <p>
-              <a href="BRform.html">BUSINESS NAME REGISTRATION</a>
+              <Link to={'/TaaslaLegal/client/brform'} >BUSINESS NAME REGISTRATION</Link>
             </p>
           </div>
           <div className="box">
@@ -66,10 +66,10 @@ function Dashboard() {
           </div>
           <div className="box">
             <h2>
-              <i className="fas fa-mobile"></i>Generate
+              <i className="fas fa-mobile"></i>Request for 
             </h2>
             <p>
-              <a href="#">LEGAL DOCUMENTS</a>
+              <a href="#">LEGAL DOCUMENTS Generation</a>
             </p>
           </div>
         </div>

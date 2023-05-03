@@ -40,8 +40,11 @@ export default function Login() {
                     .signup(values)
                     .then((res) => console.log("rrreeesss", res));
                 }
-                alert("please accept terms");
-                console.log(values, checked);
+
+                if(!checked){
+                  alert("please accept terms");
+                  console.log(values, checked);
+                }
               }}
             >
               {({ handleSubmit }) => {

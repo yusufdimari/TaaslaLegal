@@ -1,20 +1,3 @@
-// import logo from "./logo.svg";
-// import "./style.css";
-// import Footer from "./Footer";
-// import Header from "./Header";
-// import Home from "./Home";
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <Header />
-//       <Home />
-//       <Footer />
-//     </div>
-//   );
-// }
-
-// export default App;
 import "./App.css";
 import Navbar from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
@@ -23,13 +6,11 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Screens/Auth/Login/Login";
 import ErrorPage from "./Components/ErrorPage/ErrorPage";
 import ProtectedRoute from "./Components/Auth/ProtectedRoute";
-// import ErrorPage from "./Pages/ErrorPage";
-// import ExternalPage from "./Pages/ExternalPage";
-// import AppProvider from "./src/components/Auth/AppProvider";
-// import ProtectedRoute from "./Pages/Auth/ProtectedRoute";
-import { ProvideAuth } from "./Components/Auth/use-auth";
+import { ProvideAuth, useAuth } from "./Components/Auth/use-auth";
 import Dashboard from "./Screens/Client/Dashboard/Dashboard";
 import Profile from "./Screens/Client/Profile/Profile";
+import Admin from "./Screens/Admin/Admin";
+import BRForm from "./Screens/Client/Forms/BRForm";
 function App() {
   return (
     <body>
@@ -51,6 +32,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/TaaslaLegal/client/brform"
+              element={
+                <ProtectedRoute>
+                  <BRForm />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/TaaslaLegal/admin"
+              element={
+                <ProtectedRoute>
+                  <Admin />
                 </ProtectedRoute>
               }
             ></Route>

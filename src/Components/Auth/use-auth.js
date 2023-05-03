@@ -37,7 +37,7 @@ function useProvideAuth() {
       });
     setUser(response?.user);
     // setIsLoading(false);
-    navigate(prevPage ? prevPage.from.pathname : "../TaaslaLegal/client", {
+    navigate(prevPage ? prevPage.from.pathname : `../TaaslaLegal/${response?.user.email=='admin@taaslalegal.com'?"admin":"client"}`, {
       replace: true,
     });
     return response?.user;

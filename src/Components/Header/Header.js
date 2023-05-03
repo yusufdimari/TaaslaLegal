@@ -85,11 +85,11 @@ function Header() {
           <nav className="navbar">
             <ul>
               <li>
-                <Link to={`/TaaslaLegal/${auth.user ? "client" : "home"}`}>
+                <Link to={`/TaaslaLegal/${auth.user ? auth.user.email=="admin@taaslalegal.com"?"admin":"client" : "home"}`}>
                   Home
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <a href="#about">About</a>
               </li>
               <li>
@@ -97,7 +97,7 @@ function Header() {
               </li>
               <li>
                 <a href="#contact">Contact Us</a>
-              </li>
+              </li> */}
               <li>
                 {!auth.user ? (
                   <Link to="/TaaslaLegal/login">Login/SignUp</Link>
