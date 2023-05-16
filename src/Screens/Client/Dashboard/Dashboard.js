@@ -17,7 +17,7 @@ function Dashboard() {
                 <i className="fas fa-file-alt" style={{ fontSize: "50px" }}></i>
               </a>{" "}
               <h2>
-                <a href="#"> View Documents</a>
+                <Link to="/TaaslaLegal/client/documents"> View Documents</Link>
               </h2>
             </p>
           </div>
@@ -44,7 +44,9 @@ function Dashboard() {
               <i className="fas fa-arrows-alt-v"></i> Request NEW
             </h2>
             <p>
-              <Link to={'/TaaslaLegal/client/brform'} >BUSINESS NAME REGISTRATION</Link>
+              <Link to={"/TaaslaLegal/client/brform"}>
+                BUSINESS NAME REGISTRATION
+              </Link>
             </p>
           </div>
           <div className="box">
@@ -52,7 +54,9 @@ function Dashboard() {
               <i className="fas fa-arrows-alt"></i>Request NEW
             </h2>
             <p>
-              <a href="CRform.html">COMPANY NAME REGISTRATION</a>
+              <Link to={"/TaaslaLegal/client/crform"}>
+                COMPANY NAME REGISTRATION
+              </Link>
             </p>
           </div>
 
@@ -66,7 +70,7 @@ function Dashboard() {
           </div>
           <div className="box">
             <h2>
-              <i className="fas fa-mobile"></i>Request for 
+              <i className="fas fa-mobile"></i>Request for
             </h2>
             <p>
               <a href="#">LEGAL DOCUMENTS Generation</a>

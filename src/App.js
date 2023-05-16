@@ -13,6 +13,8 @@ import Admin from "./Screens/Admin/Admin";
 import BRForm from "./Screens/Client/Forms/BRForm";
 import Documents from "./Screens/Client/Documents/Documents";
 import BRRequests from "./Screens/Admin/BRRequest";
+import CRRequests from "./Screens/Admin/CRRequest";
+import CRForm from "./Screens/Client/Forms/CRForm";
 function App() {
   return (
     <body>
@@ -46,6 +48,14 @@ function App() {
               }
             ></Route>
             <Route
+              path="/TaaslaLegal/client/crform"
+              element={
+                <ProtectedRoute>
+                  <CRForm />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
               path="/TaaslaLegal/client/documents"
               element={
                 <ProtectedRoute>
@@ -66,6 +76,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <BRRequests />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/TaaslaLegal/admin/crrequests"
+              element={
+                <ProtectedRoute>
+                  <CRRequests />
                 </ProtectedRoute>
               }
             ></Route>

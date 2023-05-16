@@ -3,9 +3,8 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import "./styles.css";
 import { useAuth } from "../../../Components/Auth/use-auth";
 import { useNavigate } from "react-router";
-import emailjs from "@emailjs/browser";
 
-export default function BRForm() {
+export default function CRForm() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [submitting, setIsSubmitting] = useState(false);
@@ -16,36 +15,14 @@ export default function BRForm() {
     phoneNumber: "",
     dateOfBirth: "",
     gender: "",
-    businessName: "",
+    companyName: "",
     alternativeName: "",
     residentialAddress: "",
-    businessAddress: "",
+    companyAddress: "",
     city: "",
     region: "",
     postalCode: "",
   });
-  useEffect(() => {
-    const templateParams = {
-      name: "James",
-      notes: "Check this out!",
-    };
-
-    emailjs
-      .send(
-        "<YOUR_SERVICE_ID>",
-        "<YOUR_TEMPLATE_ID>",
-        templateParams,
-        "<YOUR_PUBLIC_KEY>"
-      )
-      .then(
-        (response) => {
-          console.log("SUCCESS!", response.status, response.text);
-        },
-        (err) => {
-          console.log("FAILED...", err);
-        }
-      );
-  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -58,7 +35,7 @@ export default function BRForm() {
     const db = getFirestore();
     try {
       if (user.uid) {
-        const docRef = await addDoc(collection(db, "BRRequest"), {
+        const docRef = await addDoc(collection(db, "CRRequest"), {
           formData,
           status: "Pending",
           createdBy: user.uid, // assuming you have already initialized Firebase authentication
@@ -73,10 +50,10 @@ export default function BRForm() {
           phoneNumber: "",
           dateOfBirth: "",
           gender: "",
-          businessName: "",
+          companyName: "",
           alternativeName: "",
           residentialAddress: "",
-          businessAddress: "",
+          companyAddress: "",
           city: "",
           region: "",
           postalCode: "",
@@ -89,26 +66,6 @@ export default function BRForm() {
     } finally {
       setIsSubmitting(false);
     }
-
-    const client = new SMTPClient({
-      user: "user",
-      password: "password",
-      host: "smtp.your-email.com",
-      ssl: true,
-    });
-
-    const message = {
-      text: "i hope this works",
-      from: "you <username@your-email.com>",
-      to: "someone <someone@your-email.com>, another <another@your-email.com>",
-      cc: "else <else@your-email.com>",
-      subject: "testing emailjs",
-    };
-
-    // send the message and get a callback with an error or details of the message that was sent
-    client.send(message, function (err, message) {
-      console.log(err || message);
-    });
   };
   return (
     <div
@@ -198,14 +155,14 @@ export default function BRForm() {
               </div>
             </div>
           </div>
-          <div className="input-box business-name">
+          <div className="input-box company-name">
             <label>Business Name</label>
             <input
               type="text"
               placeholder="Enter Intended name"
               required
               onChange={handleChange}
-              name="businessName"
+              name="companyName"
             />
             <input
               type="text"
@@ -216,7 +173,7 @@ export default function BRForm() {
             />
           </div>
 
-          <div className="input-box business-name">
+          <div className="input-box company-name">
             <label>Address</label>
             <input
               type="text"
@@ -227,10 +184,10 @@ export default function BRForm() {
             />
             <input
               type="text"
-              placeholder="Enter address of business"
+              placeholder="Enter address of company"
               required
               onChange={handleChange}
-              name="businessAddress"
+              name="companyAddress"
             />
 
             {/* <div className="column"> */}

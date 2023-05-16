@@ -13,14 +13,14 @@ import {
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Components/Auth/use-auth";
 
-function BRRequests() {
+function CRRequests() {
   const { user } = useAuth();
   const [requests, setRequests] = useState([]);
   const db = getFirestore();
 
   useEffect(() => {
     const fetchForms = () => {
-      const formsRef = collection(db, "BRRequest");
+      const formsRef = collection(db, "CRRequest");
       const q = query(formsRef);
       const unsubscribe = onSnapshot(
         q,
@@ -45,13 +45,12 @@ function BRRequests() {
   }, []);
 
   const handleResponse = async (requestId, response, email) => {
-    const requestRef = doc(db, "BRRequest", requestId);
+    const requestRef = doc(db, "CRRequest", requestId);
     try {
       const docSnapshot = await getDoc(requestRef);
       if (docSnapshot.exists()) {
         await updateDoc(requestRef, {
           status: response ? "Approved" : "Denied",
-          paymentStatus: "Pending",
         });
         console.log("updated");
       } else {
@@ -64,7 +63,7 @@ function BRRequests() {
 
   return (
     <div>
-      <h1>BRRequest List</h1>
+      <h1>CRRequest List</h1>
       <table
         style={{
           width: "100%",
@@ -80,7 +79,6 @@ function BRRequests() {
             <th>City</th>
             <th style={{ width: "20%" }}>Email</th>
             <th style={{ width: "20%" }}>Full Name</th>
-            <th>Document</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -108,7 +106,6 @@ function BRRequests() {
               <td>{request.formData?.city}</td>
               <td>{request.formData?.emailAddress}</td>
               <td>{request.formData?.fullName}</td>
-              <td></td>
               <td>
                 <button
                   onClick={() =>
@@ -119,44 +116,29 @@ function BRRequests() {
                     )
                   }
                   style={{
-                    backgroundColor:
-                      request.status === "Approved"
-                        ? "green"
-                        : request.status === "Denied"
-                        ? "red"
-                        : "blue",
+                    backgroundColor: "green",
                     padding: 10,
                     marginRight: 10,
                     borderWidth: 0,
                     borderRadius: 10,
                     color: "white",
                   }}
-                  disabled={
-                    request.status === "Approved" || request.status === "Denied"
-                  }
                 >
-                  {request.status === "Approved"
-                    ? "Approved"
-                    : request.status === "Denied"
-                    ? "Denied"
-                    : "Approve"}
+                  Approve
                 </button>
-                {request.status != "Approved" && request.status != "Denied" && (
-                  <button
-                    onClick={() => handleResponse(request.id, false)}
-                    style={{
-                      backgroundColor: "red",
-                      padding: 10,
-                      marginRight: 10,
-                      borderWidth: 0,
-                      borderRadius: 10,
-                      color: "white",
-                    }}
-                    disabled={request.status === "Approved"}
-                  >
-                    {request.status === "Approved" ? "Approved" : "Deny"}
-                  </button>
-                )}
+                <button
+                  onClick={() => handleResponse(request.id, false)}
+                  style={{
+                    backgroundColor: "red",
+                    padding: 10,
+                    marginRight: 10,
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    color: "white",
+                  }}
+                >
+                  Deny
+                </button>
               </td>
             </tr>
           ))}
@@ -166,4 +148,4 @@ function BRRequests() {
   );
 }
 
-export default BRRequests;
+export default CRRequests;

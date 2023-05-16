@@ -23,7 +23,9 @@ export default function Admin() {
                 <i class="fa fa-folder-open"></i>Requested
               </h2>
               <p>
-                <a href="#">COMPANY NAME REGISTRATION</a>
+                <Link to="/TaaslaLegal/admin/crrequests">
+                  COMPANY NAME REGISTRATION
+                </Link>
               </p>
             </div>
 
