@@ -90,12 +90,7 @@ export default function BRForm() {
       setIsSubmitting(false);
     }
 
-    const client = new SMTPClient({
-      user: "user",
-      password: "password",
-      host: "smtp.your-email.com",
-      ssl: true,
-    });
+
 
     const message = {
       text: "i hope this works",
@@ -105,10 +100,9 @@ export default function BRForm() {
       subject: "testing emailjs",
     };
 
-    // send the message and get a callback with an error or details of the message that was sent
-    client.send(message, function (err, message) {
-      console.log(err || message);
-    });
+
+    
+
   };
   return (
     <div
@@ -162,7 +156,7 @@ export default function BRForm() {
           <div className="input-box">
             <label>Date of Birth</label>
             <input
-              type="date"
+              type="text"
               name="dateOfBirth"
               placeholder="Enter birth date"
               required

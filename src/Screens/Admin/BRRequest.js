@@ -12,6 +12,8 @@ import {
 } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Components/Auth/use-auth";
+//import "./br.request.css";
+
 
 function BRRequests() {
   const { user } = useAuth();
@@ -44,6 +46,7 @@ function BRRequests() {
     fetchForms();
   }, []);
 
+  
   const handleResponse = async (requestId, response, email) => {
     const requestRef = doc(db, "BRRequest", requestId);
     try {
@@ -62,6 +65,14 @@ function BRRequests() {
     }
   };
 
+  const handleDocumentUpload = (e, requestId) => {
+    // Placeholder function for handling document upload
+    // You can implement the desired logic for handling the uploaded document here
+    const file = e.target.files[0];
+    console.log("Uploaded file:", file);
+    console.log("Request ID:", requestId);
+  };
+
   return (
     <div>
       <h1>BRRequest List</h1>
@@ -70,45 +81,43 @@ function BRRequests() {
           width: "100%",
           justifyContent: "center",
           alignItems: "center",
+          borderCollapse: "collapse",
         }}
       >
         <thead>
           <tr>
-            <th style={{ width: "20%" }}>Business Name</th>
-            <th>Status</th>
-            <th>Created At</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Date of Birth</th>
+            <th>gender</th>
+            <th>Business Name</th>
+            <th>Alternative Business Name</th>
+            <th>Residental Address</th>
+            <th>company Address</th>
             <th>City</th>
-            <th style={{ width: "20%" }}>Email</th>
-            <th style={{ width: "20%" }}>Full Name</th>
-            <th>Document</th>
+            <th>Region</th>
+            <th>postal code</th>
             <th>Action</th>
+            <th>Upload Documents</th>
           </tr>
         </thead>
         <tbody>
           {requests.map((request) => (
             <tr key={request.id}>
-              <td>{request.formData?.businessName}</td>
-              <td
-                style={{
-                  backgroundColor:
-                    request.status == "Approved"
-                      ? "green"
-                      : request.status == "Pending"
-                      ? "yellow"
-                      : "red",
-                }}
-              >
-                {request.status}
-              </td>
-              <td>
-                {new Date(request.createdAt?.seconds * 1000).toLocaleDateString(
-                  "en-GB"
-                )}
-              </td>
-              <td>{request.formData?.city}</td>
-              <td>{request.formData?.emailAddress}</td>
               <td>{request.formData?.fullName}</td>
-              <td></td>
+              <td>{request.formData?.emailAddress}</td>
+              <td>{request.formData?.phoneNumber}</td>
+              <td>{request.formData?.dateOfBirth}</td>
+              <td>{request.formData?.gender}</td>
+              <td>{request.formData?.businessName}</td>
+              <td>{request.formData?.alternativeName}</td>
+              <td>{request.formData?.residentialAddress}</td>
+              <td>{request.formData?.companyAddress}</td>
+              <td>{request.formData?.city}</td>
+              <td>{request.formData?.region}</td>
+              <td>{request.formData?.postalCode}</td>
+
               <td>
                 <button
                   onClick={() =>
@@ -158,6 +167,15 @@ function BRRequests() {
                   </button>
                 )}
               </td>
+              <td>
+  {/* Upload Document */}
+  <input
+    type="file"
+    id={`document-upload-${request.id}`}
+    className="document-input"
+    onChange={(e) => handleDocumentUpload(e, request.id)}
+  />
+</td>
             </tr>
           ))}
         </tbody>

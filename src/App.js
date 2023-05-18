@@ -2,19 +2,19 @@ import "./App.css";
 import Navbar from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer";
 import Home from "./Screens/Home/Home";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Screens/Auth/Login/Login";
 import ErrorPage from "./Components/ErrorPage/ErrorPage";
 import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 import { ProvideAuth, useAuth } from "./Components/Auth/use-auth";
 import Dashboard from "./Screens/Client/Dashboard/Dashboard";
 import Profile from "./Screens/Client/Profile/Profile";
-import Admin from "./Screens/Admin/Admin";
 import BRForm from "./Screens/Client/Forms/BRForm";
-import Documents from "./Screens/Client/Documents/Documents";
+import Admin from "./Screens/Admin/Admin";
 import BRRequests from "./Screens/Admin/BRRequest";
 import CRRequests from "./Screens/Admin/CRRequest";
 import CRForm from "./Screens/Client/Forms/CRForm";
+import Documents from "./Screens/Client/Documents/Documents";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 function App() {
   return (
     <body>

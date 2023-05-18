@@ -14,7 +14,7 @@ function Dashboard() {
             <p>
               <br />
               <a href="#">
-                <i className="fas fa-file-alt" style={{ fontSize: "50px" }}></i>
+                <i class="fas fa-file-alt" style={{ fontSize: "50px" }}></i>
               </a>{" "}
               <h2>
                 <Link to="/TaaslaLegal/client/documents"> View Documents</Link>

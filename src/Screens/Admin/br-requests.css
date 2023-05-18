@@ -1,0 +1,53 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  table thead tr {
+    background-color: #eee;
+  }
+  
+  table thead th {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  table tbody {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  table tbody tr {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  table tbody td {
+    padding: 10px;
+    text-align: left;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflowing text */
+  }
+  
+  table button {
+    background-color: blue;
+    padding: 10px;
+    margin-right: 10px;
+    border-width: 0;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  table button[disabled] {
+    background-color: green;
+  }
+  
+  table button.deny-btn {
+    background-color: red;
+  }
+  
+  input.document-input {
+    display: none;
+  }
+  

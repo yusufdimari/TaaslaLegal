@@ -5,6 +5,8 @@ import {
   where,
   getDocs,
   getFirestore,
+  updateDoc,
+  doc,
   getDoc,
 } from "firebase/firestore";
 import "./documentStyle.css";

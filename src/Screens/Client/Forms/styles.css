@@ -92,6 +92,77 @@ button[type="submit"] {
     font-size: 16px;
     cursor: pointer;
 }
+.brcontainer {
+    width: 1000px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  
+  header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .form-container {
+    display: grid;
+    grid-gap: 10px;
+  }
+  
+  .input-box {
+    display: grid;
+    grid-gap: 5px;
+  }
+  
+  .label {
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    width: 500px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .gender-box {
+    margin-bottom: 10px;
+  }
+  
+  .genders {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .gender-option {
+    display: flex;
+    align-items: center;
+  }
+  
+  .submit-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .custom-hr {
+    border: none; /* Remove the default border */
+    height: 1px; /* Set the height of the horizontal line */
+    background-color: black; /* Set the background color of the line */
+    margin: 20px 0; /* Add some margin around the line */
+  }
 
 @media screen and (max-width: 600px) {
     .column {
