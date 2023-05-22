@@ -12,8 +12,6 @@ import {
 } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Components/Auth/use-auth";
-//import "./br.request.css";
-
 
 function BRRequests() {
   const { user } = useAuth();
@@ -46,7 +44,6 @@ function BRRequests() {
     fetchForms();
   }, []);
 
-  
   const handleResponse = async (requestId, response, email) => {
     const requestRef = doc(db, "BRRequest", requestId);
     try {
@@ -54,7 +51,6 @@ function BRRequests() {
       if (docSnapshot.exists()) {
         await updateDoc(requestRef, {
           status: response ? "Approved" : "Denied",
-          paymentStatus: "Pending",
         });
         console.log("updated");
       } else {
@@ -79,25 +75,24 @@ function BRRequests() {
       <table
         style={{
           width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          borderCollapse: "collapse",
+          flex: "center",
         }}
       >
         <thead>
           <tr>
-            <th>Full Name</th>
-            <th>Email</th>
+            <th style={{ width: "20%" }}>Full Name</th>
+            <th style={{ width: "20%" }}>Email</th>
             <th>Phone Number</th>
             <th>Date of Birth</th>
             <th>gender</th>
-            <th>Business Name</th>
-            <th>Alternative Business Name</th>
-            <th>Residental Address</th>
-            <th>company Address</th>
+            <th style={{ width: "20%" }}>Business Name</th>
+            <th style={{ width: "20%" }}>Alternative Business Name</th>
+            <th>Business Address</th>
             <th>City</th>
             <th>Region</th>
-            <th>postal code</th>
+            <th>NIN</th>
+            <th>Signature</th>
+            <th>Passport</th>
             <th>Action</th>
             <th>Upload Documents</th>
           </tr>
@@ -112,12 +107,60 @@ function BRRequests() {
               <td>{request.formData?.gender}</td>
               <td>{request.formData?.businessName}</td>
               <td>{request.formData?.alternativeName}</td>
-              <td>{request.formData?.residentialAddress}</td>
-              <td>{request.formData?.companyAddress}</td>
+              <td>{request.formData?.businessAddress}</td>
               <td>{request.formData?.city}</td>
               <td>{request.formData?.region}</td>
-              <td>{request.formData?.postalCode}</td>
-
+              <td>
+                <button
+                  onClick={() =>
+                    window.open(request.formData.NINFile, "_blank")
+                  }
+                  style={{
+                    backgroundColor: "grey",
+                    padding: 10,
+                    marginRight: 10,
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    color: "white",
+                  }}
+                >
+                  View 
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() =>
+                    window.open(request.formData.signatureFile, "_blank")
+                  }
+                  style={{
+                    backgroundColor: "grey",
+                    padding: 10,
+                    marginRight: 10,
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    color: "white",
+                  }}
+                >
+                  View 
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() =>
+                    window.open(request.formData.passportFile, "_blank")
+                  }
+                  style={{
+                    backgroundColor: "grey",
+                    padding: 10,
+                    marginRight: 10,
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    color: "white",
+                  }}
+                >
+                  View
+                </button>
+              </td>
               <td>
                 <button
                   onClick={() =>
@@ -168,14 +211,14 @@ function BRRequests() {
                 )}
               </td>
               <td>
-  {/* Upload Document */}
-  <input
-    type="file"
-    id={`document-upload-${request.id}`}
-    className="document-input"
-    onChange={(e) => handleDocumentUpload(e, request.id)}
-  />
-</td>
+                {/* Upload Document */}
+                <input
+                  type="file"
+                  id={`document-upload-${request.id}`}
+                  className="document-input"
+                  onChange={(e) => handleDocumentUpload(e, request.id)}
+                />
+              </td>
             </tr>
           ))}
         </tbody>

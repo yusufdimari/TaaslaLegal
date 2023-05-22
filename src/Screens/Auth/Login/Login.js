@@ -6,7 +6,6 @@ import "./index.css";
 export default function Login() {
   const [active, setActive] = useState(true);
   const [checked, setChecked] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   // const wrapper = document.querySelector(".wrapper");
 
   // const signupHeader = document.querySelector(".signup header");
@@ -42,7 +41,7 @@ export default function Login() {
                     .then((res) => console.log("rrreeesss", res));
                 }
 
-                if (!checked) {
+                if(!checked){
                   alert("please accept terms");
                   console.log(values, checked);
                 }
@@ -128,17 +127,9 @@ export default function Login() {
             <header>Login</header>
             <Formik
               initialValues={{ email: "", password: "" }}
-              onSubmit={async (values) => {
-                if (values.email != "" && values.password != "") {
-                  setIsSubmitting(true);
-                  const result = await auth.signin(
-                    values.email,
-                    values.password
-                  );
-                  setIsSubmitting(false);
-                  return;
-                }
-                alert("please fill the fileds");
+              onSubmit={(values) => {
+                auth.signin(values.email, values.password);
+
               }}
             >
               {({ handleSubmit }) => {
@@ -166,12 +157,7 @@ export default function Login() {
                       name="password"
                     />
                     <a href="#">Forgot password?</a>
-                    <input
-                      type="submit"
-                      value="Login"
-                      disabled={isSubmitting}
-                      style={{ backgroundColor: isSubmitting && "#ccc" }}
-                    />
+                    <input type="submit" value="Login" />
                   </form>
                 );
               }}

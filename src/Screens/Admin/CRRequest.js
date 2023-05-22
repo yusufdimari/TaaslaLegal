@@ -86,12 +86,13 @@ function CRRequests() {
             <th>Date of Birth</th>
             <th>gender</th>
             <th style={{ width: "20%" }}>Company Name</th>
-            <th style={{ width: "20%" }}>Alternative Business Name</th>
-            <th>Residental Address</th>
+            <th style={{ width: "20%" }}>Alternative Company Name</th>
             <th>company Address</th>
             <th>City</th>
             <th>Region</th>
             <th>NIN</th>
+            <th>Signature</th>
+            <th>Passport</th>
             <th>Action</th>
             <th>Upload Documents</th>
           </tr>
@@ -106,7 +107,6 @@ function CRRequests() {
               <td>{request.formData?.gender}</td>
               <td>{request.formData?.companyName}</td>
               <td>{request.formData?.alternativeName}</td>
-              <td>{request.formData?.residentialAddress}</td>
               <td>{request.formData?.companyAddress}</td>
               <td>{request.formData?.city}</td>
               <td>{request.formData?.region}</td>
@@ -124,7 +124,41 @@ function CRRequests() {
                     color: "white",
                   }}
                 >
-                  View NIN
+                  View
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() =>
+                    window.open(request.formData.signatureFile, "_blank")
+                  }
+                  style={{
+                    backgroundColor: "grey",
+                    padding: 10,
+                    marginRight: 10,
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    color: "white",
+                  }}
+                >
+                  View
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() =>
+                    window.open(request.formData.passportFile, "_blank")
+                  }
+                  style={{
+                    backgroundColor: "grey",
+                    padding: 10,
+                    marginRight: 10,
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    color: "white",
+                  }}
+                >
+                  View 
                 </button>
               </td>
               <td>

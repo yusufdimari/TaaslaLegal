@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 import "./styles.css";
 import { useAuth } from "../../../Components/Auth/use-auth";
 import { useNavigate } from "react-router";
 import emailjs from "@emailjs/browser";
 
 export default function BRForm() {
+  const storage=getStorage()
   const { user } = useAuth();
   const navigate = useNavigate();
   const [submitting, setIsSubmitting] = useState(false);
@@ -23,6 +26,9 @@ export default function BRForm() {
     city: "",
     region: "",
     postalCode: "",
+    NINFile: null,
+    signatureFile: null,
+    passportFile: null,
   });
   useEffect(() => {
     const templateParams = {
@@ -49,6 +55,37 @@ export default function BRForm() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const uploadFileToStorage = async (file) => {
+    try {
+      const storageRef = ref(storage, file.name);
+      await uploadBytes(storageRef, file);
+      const downloadUrl = await getDownloadURL(storageRef);
+      return downloadUrl;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // Handle the error appropriately
+      return null;
+    }
+  };
+
+  const handleDocumentUpload1 = async (e) => {
+    const file = e.target.files[0];
+    const downloadUrl = await uploadFileToStorage(file);
+    setFormData({ ...formData, NINFile: downloadUrl });
+  };
+
+  const handleDocumentUpload2 = async (e) => {
+    const file = e.target.files[0];
+    const downloadUrl = await uploadFileToStorage(file);
+    setFormData({ ...formData, signatureFile: downloadUrl });
+  };
+
+  const handleDocumentUpload3 = async (e) => {
+    const file = e.target.files[0];
+    const downloadUrl = await uploadFileToStorage(file);
+    setFormData({ ...formData, passportFile: downloadUrl });
   };
 
   const handleSubmit = async (e) => {
@@ -115,7 +152,7 @@ export default function BRForm() {
       }}
     >
       <section class="brcontainer">
-        <header>Registration Form</header>
+        <header>Business Registration Form</header>
         <form onSubmit={handleSubmit} className="form-container">
           <div className="input-box">
             <label>Full Name</label>
@@ -156,7 +193,7 @@ export default function BRForm() {
           <div className="input-box">
             <label>Date of Birth</label>
             <input
-              type="text"
+              type="date"
               name="dateOfBirth"
               placeholder="Enter birth date"
               required
@@ -207,6 +244,41 @@ export default function BRForm() {
               required
               onChange={handleChange}
               name="alternativeName"
+            />
+          </div>
+          <div className="input-box">
+            <label>
+              Upload National Identification Number (NIN)
+              <h5 style={{ color: "red" }}>(Data Page)</h5>
+            </label>
+            <input
+              type="file"
+              accept="application/pdf" // Adjust the accepted file types if needed
+              onChange={handleDocumentUpload1}
+            />
+          </div>
+          <div className="input-box">
+            <label>
+              Upload signature
+              <h5 style={{ color: "red" }}>(should be clear)</h5>
+            </label>
+            <input
+              type="file"
+              accept="application/pdf" // Adjust the accepted file types if needed
+              onChange={handleDocumentUpload2}
+            />
+          </div>
+          <div className="input-box">
+            <label>
+              Upload Passport Photo
+              <h5 style={{ color: "red" }}>
+                (should be written on a plain white paper)
+              </h5>
+            </label>
+            <input
+              type="file"
+              accept="application/pdf" // Adjust the accepted file types if needed
+              onChange={handleDocumentUpload3}
             />
           </div>
 
