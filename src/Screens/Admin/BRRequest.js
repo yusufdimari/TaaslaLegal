@@ -10,6 +10,7 @@ import {
   updateDoc,
   onSnapshot,
 } from "@firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Components/Auth/use-auth";
 
@@ -17,6 +18,7 @@ function BRRequests() {
   const { user } = useAuth();
   const [requests, setRequests] = useState([]);
   const db = getFirestore();
+  const storage = getStorage();
 
   useEffect(() => {
     const fetchForms = () => {
@@ -60,13 +62,35 @@ function BRRequests() {
       console.error("Error updating document: ", error);
     }
   };
-
-  const handleDocumentUpload = (e, requestId) => {
-    // Placeholder function for handling document upload
-    // You can implement the desired logic for handling the uploaded document here
+  const uploadFileToStorage = async (file) => {
+    try {
+      const storageRef = ref(storage, file.name);
+      await uploadBytes(storageRef, file);
+      const downloadUrl = await getDownloadURL(storageRef);
+      return downloadUrl;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      // Handle the error appropriately
+      return null;
+    }
+  };
+  const handleDocumentUpload = async (e, requestId) => {
     const file = e.target.files[0];
-    console.log("Uploaded file:", file);
-    console.log("Request ID:", requestId);
+    const requestRef = doc(db, "BRRequest", requestId);
+    const downloadUrl = await uploadFileToStorage(file);
+    try {
+      const docSnapshot = await getDoc(requestRef);
+      if (docSnapshot.exists()) {
+        await updateDoc(requestRef, {
+          BRForm: downloadUrl,
+        });
+        console.log("updated");
+      } else {
+        console.log("Document does not exist!");
+      }
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
   };
 
   return (
@@ -124,7 +148,7 @@ function BRRequests() {
                     color: "white",
                   }}
                 >
-                  View 
+                  View
                 </button>
               </td>
               <td>
@@ -141,7 +165,7 @@ function BRRequests() {
                     color: "white",
                   }}
                 >
-                  View 
+                  View
                 </button>
               </td>
               <td>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../Components/Auth/use-auth";
-import { FiFile } from 'react-icons/fi';
+import { FiFile } from "react-icons/fi";
 import "./style.css";
 
 function Dashboard() {
@@ -12,16 +12,20 @@ function Dashboard() {
         <div className="container">
           <div>
             <h1>WELCOME!</h1>
-            
-            
-              <div className="icon-text-container">
-            <FiFile className="icon" size={40} />
-            {/* Additional JSX content */}
-          
+            <div className="icon-text-container">
+              <FiFile className="icon" size={40} />
+              {/* Additional JSX content */}
+
               <h1 className="text">
-                <Link to="/TaaslaLegal/client/documents" style={{ fontSize: '30px' }}> View Documents</Link>
+                <Link
+                  to="/TaaslaLegal/client/documents"
+                  style={{ fontSize: "30px" }}
+                >
+                  {" "}
+                  View Documents
+                </Link>
               </h1>
-              </div>
+            </div>
           </div>
           <div
             style={{
