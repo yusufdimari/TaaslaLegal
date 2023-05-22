@@ -64,11 +64,12 @@ function Documents() {
 
   return (
     <div>
-      <h1>My Forms</h1>
+      <h1>My Documents</h1>
       <table>
         <thead>
           <tr>
             <th>Business Name</th>
+            <th>Alternative Business Name</th>
             <th>Amount (&#8358;)</th>
             <th>Status</th>
             <th>Payment Status</th>
@@ -79,6 +80,7 @@ function Documents() {
           {forms.map((form) => (
             <tr key={form.id}>
               <td>{form.formData.businessName}</td>
+              <td>{form.formData.alternativeName}</td>
               <td>
                 {amount
                   ? amount.toLocaleString("en-NG", {

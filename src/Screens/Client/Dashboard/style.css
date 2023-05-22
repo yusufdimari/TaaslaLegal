@@ -125,3 +125,18 @@ p {
     font-weight: bold;
 
 }
+.icon-text-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    width: 50px;
+    height: 100px;
+    margin-right: 10px;
+  }
+  
+  .text {
+    font-size: 12px;
+    /* Additional styling for the text */
+  }

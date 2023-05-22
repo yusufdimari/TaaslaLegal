@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../Components/Auth/use-auth";
+import { FiFile } from 'react-icons/fi';
 import "./style.css";
 
 function Dashboard() {
@@ -11,15 +12,16 @@ function Dashboard() {
         <div className="container">
           <div>
             <h1>WELCOME!</h1>
-            <p>
-              <br />
-              <a href="#">
-                <i class="fas fa-file-alt" style={{ fontSize: "50px" }}></i>
-              </a>{" "}
-              <h2>
-                <Link to="/TaaslaLegal/client/documents"> View Documents</Link>
-              </h2>
-            </p>
+            
+            
+              <div className="icon-text-container">
+            <FiFile className="icon" size={40} />
+            {/* Additional JSX content */}
+          
+              <h1 className="text">
+                <Link to="/TaaslaLegal/client/documents" style={{ fontSize: '30px' }}> View Documents</Link>
+              </h1>
+              </div>
           </div>
           <div
             style={{
@@ -29,7 +31,7 @@ function Dashboard() {
               flexDirection: "column",
             }}
           >
-            <img src={require("../../../img/me.jpg")} alt="#" />
+            {/*<img src={require("../../../img/me.jpg")} alt="#" />*/}
             <Link to={"/TaaslaLegal/client/profile"} id="userName">
               {auth.user.displayName}{" "}
             </Link>

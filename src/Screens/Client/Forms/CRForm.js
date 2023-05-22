@@ -114,9 +114,8 @@ export default function CRForm() {
       }}
     >
       <section class="brcontainer">
-        <header>Registration Form</header>
+        <header>Company Registration Form</header>
         <form onSubmit={handleSubmit} className="form-container">
-          <h3 style={{ color: "blue" }}>Enter Details of proprietor 1</h3>
           <div className="input-box">
             <label>Full Name</label>
             <input
@@ -154,7 +153,7 @@ export default function CRForm() {
           <div className="input-box">
             <label>Date of Birth</label>
             <input
-              type="text"
+              type="date"
               name="dateOfBirth"
               placeholder="YYYY-MM-DD"
               required
@@ -191,7 +190,7 @@ export default function CRForm() {
             </div>
           </div>
           <div className="input-box company-name">
-            <label>Business Name</label>
+            <label>Company Name</label>
             <input
               type="text"
               placeholder="Enter Intended name"
@@ -246,177 +245,7 @@ export default function CRForm() {
             <label>Address</label>
             <input
               type="text"
-              placeholder="Enter full residental address"
-              required
-              onChange={handleChange}
-              name="residentailAddress"
-            />
-            <input
-              type="text"
-              placeholder="Enter address of company"
-              required
-              onChange={handleChange}
-              name="companyAddress"
-            />
-
-            {/* <div className="column"> */}
-            <input
-              type="text"
-              placeholder="Enter your city"
-              required
-              onChange={handleChange}
-              name="city"
-            />
-            {/* </div> */}
-            {/* <div className="column"> */}
-            <input
-              type="text"
-              placeholder="Enter your region"
-              required
-              onChange={handleChange}
-              name="region"
-            />
-            <input
-              type="text"
-              placeholder="Enter postal code"
-              required
-              onChange={handleChange}
-              name="postalCode"
-            />
-            {/* </div> */}
-          </div>
-          <hr className="custom-hr" /> {/* Horizontal line with custom style */}
-          <h3 style={{ color: "blue" }}>Enter Details of proprietor 2</h3>
-          <div className="input-box">
-            <label>Full Name</label>
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Enter full name of proprietor"
-              required
-              value={formData.fullName}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input-box">
-            <label>Email Address</label>
-            <input
-              type="email"
-              name="emailAddress"
-              placeholder="Enter email address"
-              required
-              value={formData.emailAddress}
-              onChange={handleChange}
-            />
-          </div>
-          {/* <div className="column"> */}
-          <div className="input-box">
-            <label>Phone Number</label>
-            <input
-              type="tel"
-              name="phoneNumber"
-              placeholder="Enter phone number"
-              required
-              value={formData.phoneNumber}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="input-box">
-            <label>Date of Birth</label>
-            <input
-              type="text"
-              name="dateOfBirth"
-              placeholder="YYYY-MM-DD"
-              required
-              value={formData.dateOfBirth}
-              onChange={handleChange}
-            />
-          </div>
-          {/* </div> */}
-          <div className="gender-box">
-            <h3>Gender</h3>
-            <div className="genders">
-              <div className="gender-option">
-                <input
-                  type="radio"
-                  id="check-male"
-                  name="gender"
-                  value="male"
-                  checked={formData.gender === "male"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="check-male">Male</label>
-              </div>
-              <div className="gender-option">
-                <input
-                  type="radio"
-                  id="check-female"
-                  name="gender"
-                  value="female"
-                  checked={formData.gender === "female"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="check-female">Female</label>
-              </div>
-            </div>
-          </div>
-          <div className="input-box company-name">
-            <label>Business Name</label>
-            <input
-              type="text"
-              placeholder="Enter Intended name"
-              required
-              onChange={handleChange}
-              name="companyName"
-            />
-            <input
-              type="text"
-              placeholder="Enter Alternative name"
-              required
-              onChange={handleChange}
-              name="alternativeName"
-            />
-          </div>
-          <div className="input-box">
-            <label>
-              Upload National Identification Number (NIN)
-              <h5 style={{ color: "red" }}>(Data Page)</h5>
-            </label>
-            <input
-              type="file"
-              accept="application/pdf" // Adjust the accepted file types if needed
-              onChange={handleDocumentUpload1}
-            />
-          </div>
-          <div className="input-box">
-            <label>
-              Upload signature
-              <h5 style={{ color: "red" }}>(should be clear)</h5>
-            </label>
-            <input
-              type="file"
-              accept="application/pdf" // Adjust the accepted file types if needed
-              onChange={handleDocumentUpload2}
-            />
-          </div>
-          <div className="input-box">
-            <label>
-              Upload Passport Photo
-              <h5 style={{ color: "red" }}>
-                (should be written on a plain white paper)
-              </h5>
-            </label>
-            <input
-              type="file"
-              accept="application/pdf" // Adjust the accepted file types if needed
-              onChange={handleDocumentUpload3}
-            />
-          </div>
-          <div className="input-box company-name">
-            <label>Address</label>
-            <input
-              type="text"
-              placeholder="Enter full residental address"
+              placeholder="Enter full residential address"
               required
               onChange={handleChange}
               name="residentailAddress"
