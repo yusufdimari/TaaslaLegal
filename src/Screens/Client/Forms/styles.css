@@ -120,8 +120,8 @@ button[type="submit"] {
     font-weight: bold;
   }
   
-  input[type="text"],
-  input[type="email"],
+  /* input[type="text"], */
+  /* input[type="email"], */
   input[type="tel"] {
     width: 500px;
     padding: 10px;

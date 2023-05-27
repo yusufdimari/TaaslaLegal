@@ -1,26 +1,24 @@
-import React from "react";
-import { colors } from "../../Constants";
 import "./HomeStyle.css";
-import ProgressBar from "../../Components/ProgressBar/ProgressBar";
+import React from "react";
 import Blur from "react-blur";
-import { useAuth } from "../../Components/Auth/use-auth";
 import Admin from "../Admin/Admin";
+import { colors } from "../../Constants";
+import { useAuth } from "../../Components/Auth/use-auth";
+import ProgressBar from "../../Components/ProgressBar/ProgressBar";
 
 const Home = () => {
   const auth = useAuth();
   console.log("user", auth.user);
-  
-    return (
-      (auth?.user?.email=="admin@taaslalegal.com")?
-          <Admin />:
-    (
-      <>
+
+  return auth?.user?.email == "admin@taaslalegal.com" ? (
+    <Admin />
+  ) : (
+    <>
       <Hero />
       <FeaturedServices />
       <About />
       <Skills />
-      </>
-      )
+    </>
   );
 };
 

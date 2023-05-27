@@ -6,17 +6,6 @@ import "./index.css";
 export default function Login() {
   const [active, setActive] = useState(true);
   const [checked, setChecked] = useState(false);
-  // const wrapper = document.querySelector(".wrapper");
-
-  // const signupHeader = document.querySelector(".signup header");
-  // const loginHeader = document.querySelector(".login header");
-
-  // loginHeader.addEventListener("click", () => {
-  //   wrapper.classList.add("active");
-  // });
-  // signupHeader.addEventListener("click", () => {
-  //   wrapper.classList.remove("active");
-  // });
   const auth = useAuth();
   return (
     <>
@@ -41,7 +30,7 @@ export default function Login() {
                     .then((res) => console.log("rrreeesss", res));
                 }
 
-                if(!checked){
+                if (!checked) {
                   alert("please accept terms");
                   console.log(values, checked);
                 }
@@ -71,6 +60,7 @@ export default function Login() {
                       id="email"
                       name="email"
                     />
+
                     <ErrorMessage
                       component="div"
                       name="email"
@@ -95,30 +85,7 @@ export default function Login() {
                 );
               }}
             </Formik>
-            {/* <form action="#" id="signUpForm">
-              <input
-                type="text"
-                placeholder="Full name"
-                required
-                id="fullName"
-              />
-              <input
-                type="email"
-                placeholder="Email address"
-                required
-                id="email"
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                required
-                id="password"
-              />
-
-              <input type="submit" value="Signup" class="signUp" />
-            </form> */}
           </div>
-
           <div
             class="form login"
             id="myLoginForm"
@@ -129,7 +96,6 @@ export default function Login() {
               initialValues={{ email: "", password: "" }}
               onSubmit={(values) => {
                 auth.signin(values.email, values.password);
-
               }}
             >
               {({ handleSubmit }) => {
@@ -143,11 +109,13 @@ export default function Login() {
                       id="email"
                       name="email"
                     />
+
                     <ErrorMessage
                       component="div"
                       name="email"
                       className="invalid-feedback"
                     />
+
                     <label className="label">Password:</label>
 
                     <Field

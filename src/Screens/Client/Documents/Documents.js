@@ -12,6 +12,7 @@ import {
 import "./documentStyle.css";
 import { PaystackButton } from "react-paystack";
 import { useAuth } from "../../../Components/Auth/use-auth";
+import { IoMdRefresh } from "react-icons/io";
 
 function Documents() {
   const [forms, setForms] = useState([]);
@@ -39,15 +40,15 @@ function Documents() {
   }, []);
 
   const handleResponse = async (requestId) => {
-    alert("Thanks for doing business with us! Come back soon!!");
     const requestRef = doc(db, "BRRequest", requestId);
     try {
       const docSnapshot = await getDoc(requestRef);
       if (docSnapshot.exists()) {
         await updateDoc(requestRef, {
-          paymentStatus: "Paid",
+          Paid: "Paid",
         });
         fetchForms();
+        alert("Thanks for doing business with us! Come back soon!!");
         console.log("updated");
       } else {
         console.log("Document does not exist!");
@@ -64,7 +65,18 @@ function Documents() {
 
   return (
     <div>
-      <h1>My Documents</h1>
+      <div
+        style={{
+          width: "95%",
+          justifyContent: "space-between",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <h1>My Documents</h1>
+
+        <IoMdRefresh size={20} onClick={fetchForms} />
+      </div>
       <table>
         <thead>
           <tr>
@@ -91,7 +103,7 @@ function Documents() {
               </td>
               <td>{form.status}</td>
               <td>
-                {form.status === "Approved" ? (
+                {form.status === "Approved" && !form.Paid ? (
                   <PaystackButton
                     publicKey="pk_test_9bfa277c5a6cc1af3619355614fa4769f43123d8"
                     onClose={() => alert("Payment not completed")}
@@ -105,19 +117,23 @@ function Documents() {
                   <button
                     disabled
                     style={{
-                      backgroundColor: form.status == "Denied" ? "red" : "#ccc",
+                      backgroundColor: form.Paid == "Paid" ? "green" : "red",
                       color: "#fff",
                       cursor: "not-allowed",
                     }}
                   >
-                    {form.status}
+                    {form.Paid ?? "Denied"}
                   </button>
                 )}
               </td>
 
               <td>
                 <button
-                  onClick={() => (window.location.href = `/forms/${form.id}`)}
+                  onClick={() => {
+                    window.open(form.BRForm, "_blank");
+                  }}
+                  disabled={form.Paid != "Paid"}
+                  style={{ backgroundColor: !form.Paid ? "grey" : "green" }}
                 >
                   View
                 </button>

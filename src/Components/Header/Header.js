@@ -71,6 +71,7 @@ function Header() {
             width: "100%",
             display: "flex",
             alignItems: "center",
+            placeItems: "center",
           }}
         >
           <h1 className="logo">
@@ -82,10 +83,18 @@ function Header() {
           >
             {menuOpen ? "Close" : "Menu"}
           </button>
-          <nav className="navbar">
+          <nav className="d-flex align-items-center navbar">
             <ul>
               <li>
-                <Link to={`/TaaslaLegal/${auth.user ? auth.user.email=="admin@taaslalegal.com"?"admin":"client" : "home"}`}>
+                <Link
+                  to={`/TaaslaLegal/${
+                    auth.user
+                      ? auth.user.email == "admin@taaslalegal.com"
+                        ? "admin"
+                        : "client"
+                      : "home"
+                  }`}
+                >
                   Home
                 </Link>
               </li>

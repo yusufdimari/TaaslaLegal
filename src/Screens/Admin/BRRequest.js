@@ -13,6 +13,7 @@ import {
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Components/Auth/use-auth";
+import { IoMdRefresh } from "react-icons/io";
 
 function BRRequests() {
   const { user } = useAuth();
@@ -21,40 +22,43 @@ function BRRequests() {
   const storage = getStorage();
 
   useEffect(() => {
-    const fetchForms = () => {
-      const formsRef = collection(db, "BRRequest");
-      const q = query(formsRef);
-      const unsubscribe = onSnapshot(
-        q,
-        (querySnapshot) => {
-          const formsList = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setRequests(formsList);
-          console.log(formsList);
-        },
-        (error) => {
-          console.error("Error fetching documents: ", error);
-        }
-      );
-
-      // Return the unsubscribe function to stop listening to changes
-      return unsubscribe;
-    };
-
     fetchForms();
   }, []);
+  const fetchForms = () => {
+    const formsRef = collection(db, "BRRequest");
+    const q = query(formsRef);
+    const unsubscribe = onSnapshot(
+      q,
+      (querySnapshot) => {
+        const formsList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setRequests(formsList);
+        console.log(formsList);
+      },
+      (error) => {
+        console.error("Error fetching documents: ", error);
+      }
+    );
+
+    // Return the unsubscribe function to stop listening to changes
+    return unsubscribe;
+  };
 
   const handleResponse = async (requestId, response, email) => {
     const requestRef = doc(db, "BRRequest", requestId);
     try {
       const docSnapshot = await getDoc(requestRef);
       if (docSnapshot.exists()) {
-        await updateDoc(requestRef, {
-          status: response ? "Approved" : "Denied",
-        });
-        console.log("updated");
+        if (docSnapshot.data().BRForm != null || !response) {
+          await updateDoc(requestRef, {
+            status: response ? "Approved" : "Denied",
+          });
+        } else {
+          return alert("Please Upload File");
+        }
+        console.log("updated", docSnapshot.data().BRForm == null);
       } else {
         console.log("Document does not exist!");
       }
@@ -62,6 +66,7 @@ function BRRequests() {
       console.error("Error updating document: ", error);
     }
   };
+
   const uploadFileToStorage = async (file) => {
     try {
       const storageRef = ref(storage, file.name);
@@ -74,6 +79,7 @@ function BRRequests() {
       return null;
     }
   };
+
   const handleDocumentUpload = async (e, requestId) => {
     const file = e.target.files[0];
     const requestRef = doc(db, "BRRequest", requestId);
@@ -95,7 +101,18 @@ function BRRequests() {
 
   return (
     <div>
-      <h1>BRRequest List</h1>
+      <div
+        style={{
+          width: "95%",
+          justifyContent: "space-between",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <h1>BRRequest List</h1>
+
+        <IoMdRefresh size={20} onClick={fetchForms} />
+      </div>
       <table
         style={{
           width: "100%",
@@ -236,12 +253,50 @@ function BRRequests() {
               </td>
               <td>
                 {/* Upload Document */}
-                <input
-                  type="file"
-                  id={`document-upload-${request.id}`}
-                  className="document-input"
-                  onChange={(e) => handleDocumentUpload(e, request.id)}
-                />
+                {request?.BRForm != null ? (
+                  <button
+                    onClick={() =>
+                      handleResponse(
+                        request.id,
+                        true,
+                        request.formData?.emailAddress
+                      )
+                    }
+                    style={{
+                      backgroundColor:
+                        request.status === "Approved"
+                          ? "green"
+                          : request.status === "Denied"
+                          ? "red"
+                          : "blue",
+                      padding: 10,
+                      marginRight: 10,
+                      borderWidth: 0,
+                      borderRadius: 10,
+                      color: "white",
+                    }}
+                    disabled={
+                      request.status === "Approved" ||
+                      request.status === "Denied"
+                    }
+                  >
+                    {request.status == "Approved"
+                      ? "Uploaded"
+                      : request.status == "Denied"
+                      ? "Denied"
+                      : "Pending"}
+                  </button>
+                ) : (
+                  <input
+                    type="file"
+                    accept="application/pdf"
+                    id={`document-upload-${request.id}`}
+                    className="document-input"
+                    onChange={(e) => handleDocumentUpload(e, request.id)}
+                    // disabled={BRForm}
+                    placeholder={"uploaded"}
+                  />
+                )}
               </td>
             </tr>
           ))}
