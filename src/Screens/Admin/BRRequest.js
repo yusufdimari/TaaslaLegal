@@ -130,7 +130,6 @@ function BRRequests() {
             <th style={{ width: "20%" }}>Alternative Business Name</th>
             <th>Business Address</th>
             <th>City</th>
-            <th>Region</th>
             <th>NIN</th>
             <th>Signature</th>
             <th>Passport</th>
@@ -150,7 +149,6 @@ function BRRequests() {
               <td>{request.formData?.alternativeName}</td>
               <td>{request.formData?.businessAddress}</td>
               <td>{request.formData?.city}</td>
-              <td>{request.formData?.region}</td>
               <td>
                 <button
                   onClick={() =>
