@@ -14,6 +14,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Components/Auth/use-auth";
 import { IoMdRefresh } from "react-icons/io";
+import { send, sendForm } from "@emailjs/browser";
 
 function CRRequests() {
   const { user } = useAuth();
@@ -21,8 +22,33 @@ function CRRequests() {
   const db = getFirestore();
   const storage = getStorage();
 
+  // const sendEmail = async () => {
+  //   try {
+  //     await send(
+  //       "service_e7d1yh7",
+  //       "template_svfjads",
+  //       {
+  //         to_name: "Yusuf Dimari",
+  //         approved_name: "Gwat",
+  //         user_email: "ysf.dimari.yd@gmail.com",
+  //         status: "Approved",
+  //       },
+  //       "8i7iOjpB4ANXnSK9u"
+  //     ).then(
+  //       (result) => {
+  //         console.log("email sent", result.text);
+  //       },
+  //       (error) => {
+  //         console.log(error.text);
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log("email error");
+  //   }
+  // };
   useEffect(() => {
     fetchForms();
+    // sendEmail();
   }, []);
   const fetchForms = () => {
     const formsRef = collection(db, "CRRequest");
@@ -35,7 +61,6 @@ function CRRequests() {
           ...doc.data(),
         }));
         setRequests(formsList);
-        console.log(formsList);
       },
       (error) => {
         console.error("Error fetching documents: ", error);
@@ -46,7 +71,13 @@ function CRRequests() {
     return unsubscribe;
   };
 
-  const handleResponse = async (requestId, response, email) => {
+  const handleResponse = async (
+    requestId,
+    response,
+    email,
+    name,
+    businessName
+  ) => {
     const requestRef = doc(db, "CRRequest", requestId);
     try {
       const docSnapshot = await getDoc(requestRef);
@@ -55,6 +86,24 @@ function CRRequests() {
           await updateDoc(requestRef, {
             status: response ? "Approved" : "Denied",
           });
+          send(
+            "service_e7d1yh7",
+            "template_svfjads",
+            {
+              to_name: name,
+              approved_name: businessName,
+              user_email: email,
+              status: response ? "Approved" : "Denied",
+            },
+            "8i7iOjpB4ANXnSK9u"
+          ).then(
+            (result) => {
+              console.log("email sent", result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
         } else {
           return alert("Please Upload File");
         }
@@ -130,7 +179,6 @@ function CRRequests() {
             <th style={{ width: "20%" }}>Alternative Business Name</th>
             <th>Business Address</th>
             <th>City</th>
-            <th>Region</th>
             <th>NIN</th>
             <th>Signature</th>
             <th>Passport</th>
@@ -146,11 +194,10 @@ function CRRequests() {
               <td>{request.formData?.phoneNumber}</td>
               <td>{request.formData?.dateOfBirth}</td>
               <td>{request.formData?.gender}</td>
-              <td>{request.formData?.businessName}</td>
+              <td>{request.formData?.companyName}</td>
               <td>{request.formData?.alternativeName}</td>
-              <td>{request.formData?.businessAddress}</td>
+              <td>{request.formData?.companyAddress}</td>
               <td>{request.formData?.city}</td>
-              <td>{request.formData?.region}</td>
               <td>
                 <button
                   onClick={() =>
@@ -259,7 +306,9 @@ function CRRequests() {
                       handleResponse(
                         request.id,
                         true,
-                        request.formData?.emailAddress
+                        request.formData?.emailAddress,
+                        request.formData?.fullName,
+                        request.formData?.businessName
                       )
                     }
                     style={{

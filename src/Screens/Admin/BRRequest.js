@@ -14,6 +14,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Components/Auth/use-auth";
 import { IoMdRefresh } from "react-icons/io";
+import { sendForm } from "@emailjs/browser";
 
 function BRRequests() {
   const { user } = useAuth();
@@ -46,7 +47,13 @@ function BRRequests() {
     return unsubscribe;
   };
 
-  const handleResponse = async (requestId, response, email) => {
+  const handleResponse = async (
+    requestId,
+    response,
+    email,
+    name,
+    businessName
+  ) => {
     const requestRef = doc(db, "BRRequest", requestId);
     try {
       const docSnapshot = await getDoc(requestRef);
@@ -55,6 +62,18 @@ function BRRequests() {
           await updateDoc(requestRef, {
             status: response ? "Approved" : "Denied",
           });
+          console.log("here 1");
+          await sendForm("service_e7d1yh7", "template_svfjads", {
+            to_name: name,
+            approved_name: businessName,
+            user_email: email,
+            status: response ? "Approved" : "Denied",
+          })
+            .then((result) => {
+              alert("sent");
+            })
+            .catch((error) => alert("error"));
+          console.log("here 2");
         } else {
           return alert("Please Upload File");
         }
@@ -257,7 +276,9 @@ function BRRequests() {
                       handleResponse(
                         request.id,
                         true,
-                        request.formData?.emailAddress
+                        request.formData?.emailAddress,
+                        request.formData?.fullName,
+                        request.formData?.businessName
                       )
                     }
                     style={{
