@@ -14,7 +14,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Components/Auth/use-auth";
 import { IoMdRefresh } from "react-icons/io";
-import { sendForm } from "@emailjs/browser";
+import { sendForm, send } from "@emailjs/browser";
 
 function BRRequests() {
   const { user } = useAuth();
@@ -62,18 +62,24 @@ function BRRequests() {
           await updateDoc(requestRef, {
             status: response ? "Approved" : "Denied",
           });
-          console.log("here 1");
-          await sendForm("service_e7d1yh7", "template_svfjads", {
-            to_name: name,
-            approved_name: businessName,
-            user_email: email,
-            status: response ? "Approved" : "Denied",
-          })
-            .then((result) => {
-              alert("sent");
-            })
-            .catch((error) => alert("error"));
-          console.log("here 2");
+          send(
+            "service_e7d1yh7",
+            "template_svfjads",
+            {
+              to_name: name,
+              approved_name: businessName,
+              user_email: email,
+              status: response ? "Approved" : "Denied",
+            },
+            "8i7iOjpB4ANXnSK9u"
+          ).then(
+            (result) => {
+              console.log("email sent", result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
         } else {
           return alert("Please Upload File");
         }
