@@ -16,6 +16,7 @@ import { IoMdRefresh } from "react-icons/io";
 
 function Documents() {
   const [forms, setForms] = useState([]);
+  const [CRforms, CRsetForms] = useState([]);
   const db = getFirestore();
   const { user } = useAuth();
   let amount = 5000;
@@ -30,7 +31,15 @@ function Documents() {
         ...doc.data(),
       }));
       setForms(formsList);
-      console.log(formsList);
+      const CRformsRef = collection(db, "CRRequest");
+      const CRq = query(CRformsRef, where("createdBy", "==", user.uid)); // assuming you have already initialized Firebase authentication
+      const CRquerySnapshot = await getDocs(CRq);
+      const CRformsList = CRquerySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      CRsetForms(CRformsList);
+      console.log(CRforms);
     } catch (error) {
       console.error("Error fetching documents: ", error);
     }
@@ -93,6 +102,71 @@ function Documents() {
             <tr key={form.id}>
               <td>{form.formData.businessName}</td>
               <td>{form.formData.alternativeName}</td>
+              <td>
+                {amount
+                  ? amount.toLocaleString("en-NG", {
+                      style: "currency",
+                      currency: "NGN",
+                    })
+                  : "-"}
+              </td>
+              <td>{form.status}</td>
+              <td>
+                {form.status === "Approved" && !form.Paid ? (
+                  <PaystackButton
+                    publicKey="pk_test_9bfa277c5a6cc1af3619355614fa4769f43123d8"
+                    onClose={() => alert("Payment not completed")}
+                    text={form.paymentStatus === "paid" ? "Paid" : "Pay"}
+                    onSuccess={() => handleResponse(form.id)}
+                    email={form.formData.emailAddress}
+                    amount={500000}
+                    phone={form.formData.phone}
+                  />
+                ) : (
+                  <button
+                    disabled
+                    style={{
+                      backgroundColor: form.Paid == "Paid" ? "green" : "red",
+                      color: "#fff",
+                      cursor: "not-allowed",
+                    }}
+                  >
+                    {form.Paid ?? "Denied"}
+                  </button>
+                )}
+              </td>
+
+              <td>
+                <button
+                  onClick={() => {
+                    window.open(form.BRForm, "_blank");
+                  }}
+                  disabled={form.Paid != "Paid"}
+                  style={{ backgroundColor: !form.Paid ? "grey" : "green" }}
+                >
+                  View
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th>Company Name</th>
+            <th>Alternative Company Name</th>
+            <th>Amount (&#8358;)</th>
+            <th>Status</th>
+            <th>Payment Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {CRforms.map((form) => (
+            <tr key={form.id}>
+              <td>{form.formData?.companyName}</td>
+              <td>{form.formData?.alternativeName}</td>
               <td>
                 {amount
                   ? amount.toLocaleString("en-NG", {

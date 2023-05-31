@@ -12,43 +12,16 @@ import {
 } from "@firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../Components/Auth/use-auth";
 import { IoMdRefresh } from "react-icons/io";
 import { send, sendForm } from "@emailjs/browser";
 
 function CRRequests() {
-  const { user } = useAuth();
   const [requests, setRequests] = useState([]);
   const db = getFirestore();
   const storage = getStorage();
 
-  // const sendEmail = async () => {
-  //   try {
-  //     await send(
-  //       "service_e7d1yh7",
-  //       "template_svfjads",
-  //       {
-  //         to_name: "Yusuf Dimari",
-  //         approved_name: "Gwat",
-  //         user_email: "ysf.dimari.yd@gmail.com",
-  //         status: "Approved",
-  //       },
-  //       "8i7iOjpB4ANXnSK9u"
-  //     ).then(
-  //       (result) => {
-  //         console.log("email sent", result.text);
-  //       },
-  //       (error) => {
-  //         console.log(error.text);
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.log("email error");
-  //   }
-  // };
   useEffect(() => {
     fetchForms();
-    // sendEmail();
   }, []);
   const fetchForms = () => {
     const formsRef = collection(db, "CRRequest");
@@ -187,128 +160,77 @@ function CRRequests() {
           </tr>
         </thead>
         <tbody>
-          {requests.map((request) => (
-            <tr key={request.id}>
-              <td>{request.formData?.fullName}</td>
-              <td>{request.formData?.emailAddress}</td>
-              <td>{request.formData?.phoneNumber}</td>
-              <td>{request.formData?.dateOfBirth}</td>
-              <td>{request.formData?.gender}</td>
-              <td>{request.formData?.companyName}</td>
-              <td>{request.formData?.alternativeName}</td>
-              <td>{request.formData?.companyAddress}</td>
-              <td>{request.formData?.city}</td>
-              <td>
-                <button
-                  onClick={() =>
-                    window.open(request.formData.NINFile, "_blank")
-                  }
-                  style={{
-                    backgroundColor: "grey",
-                    padding: 10,
-                    marginRight: 10,
-                    borderWidth: 0,
-                    borderRadius: 10,
-                    color: "white",
-                  }}
-                >
-                  View
-                </button>
-              </td>
-              <td>
-                <button
-                  onClick={() =>
-                    window.open(request.formData.signatureFile, "_blank")
-                  }
-                  style={{
-                    backgroundColor: "grey",
-                    padding: 10,
-                    marginRight: 10,
-                    borderWidth: 0,
-                    borderRadius: 10,
-                    color: "white",
-                  }}
-                >
-                  View
-                </button>
-              </td>
-              <td>
-                <button
-                  onClick={() =>
-                    window.open(request.formData.passportFile, "_blank")
-                  }
-                  style={{
-                    backgroundColor: "grey",
-                    padding: 10,
-                    marginRight: 10,
-                    borderWidth: 0,
-                    borderRadius: 10,
-                    color: "white",
-                  }}
-                >
-                  View
-                </button>
-              </td>
-              <td>
-                <button
-                  onClick={() =>
-                    handleResponse(
-                      request.id,
-                      true,
-                      request.formData?.emailAddress
-                    )
-                  }
-                  style={{
-                    backgroundColor:
-                      request.status === "Approved"
-                        ? "green"
-                        : request.status === "Denied"
-                        ? "red"
-                        : "blue",
-                    padding: 10,
-                    marginRight: 10,
-                    borderWidth: 0,
-                    borderRadius: 10,
-                    color: "white",
-                  }}
-                  disabled={
-                    request.status === "Approved" || request.status === "Denied"
-                  }
-                >
-                  {request.status === "Approved"
-                    ? "Approved"
-                    : request.status === "Denied"
-                    ? "Denied"
-                    : "Approve"}
-                </button>
-                {request.status != "Approved" && request.status != "Denied" && (
+          {requests
+            .sort((a, b) => a.createdAt < b.createdAt)
+            .map((request) => (
+              <tr key={request.id}>
+                <td>{request.formData?.fullName}</td>
+                <td>{request.formData?.emailAddress}</td>
+                <td>{request.formData?.phoneNumber}</td>
+                <td>{request.formData?.dateOfBirth}</td>
+                <td>{request.formData?.gender}</td>
+                <td>{request.formData?.companyName}</td>
+                <td>{request.formData?.alternativeName}</td>
+                <td>{request.formData?.companyAddress}</td>
+                <td>{request.formData?.city}</td>
+                <td>
                   <button
-                    onClick={() => handleResponse(request.id, false)}
+                    onClick={() =>
+                      window.open(request.formData.NINFile, "_blank")
+                    }
                     style={{
-                      backgroundColor: "red",
+                      backgroundColor: "grey",
                       padding: 10,
                       marginRight: 10,
                       borderWidth: 0,
                       borderRadius: 10,
                       color: "white",
                     }}
-                    disabled={request.status === "Approved"}
                   >
-                    {request.status === "Approved" ? "Approved" : "Deny"}
+                    View
                   </button>
-                )}
-              </td>
-              <td>
-                {/* Upload Document */}
-                {request?.BRForm != null ? (
+                </td>
+                <td>
+                  <button
+                    onClick={() =>
+                      window.open(request.formData.signatureFile, "_blank")
+                    }
+                    style={{
+                      backgroundColor: "grey",
+                      padding: 10,
+                      marginRight: 10,
+                      borderWidth: 0,
+                      borderRadius: 10,
+                      color: "white",
+                    }}
+                  >
+                    View
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() =>
+                      window.open(request.formData.passportFile, "_blank")
+                    }
+                    style={{
+                      backgroundColor: "grey",
+                      padding: 10,
+                      marginRight: 10,
+                      borderWidth: 0,
+                      borderRadius: 10,
+                      color: "white",
+                    }}
+                  >
+                    View
+                  </button>
+                </td>
+                <td>
                   <button
                     onClick={() =>
                       handleResponse(
                         request.id,
                         true,
-                        request.formData?.emailAddress,
-                        request.formData?.fullName,
-                        request.formData?.businessName
+                        request.formData?.emailAddress
                       )
                     }
                     style={{
@@ -329,26 +251,80 @@ function CRRequests() {
                       request.status === "Denied"
                     }
                   >
-                    {request.status == "Approved"
-                      ? "Uploaded"
-                      : request.status == "Denied"
+                    {request.status === "Approved"
+                      ? "Approved"
+                      : request.status === "Denied"
                       ? "Denied"
-                      : "Pending"}
+                      : "Approve"}
                   </button>
-                ) : (
-                  <input
-                    type="file"
-                    accept="application/pdf"
-                    id={`document-upload-${request.id}`}
-                    className="document-input"
-                    onChange={(e) => handleDocumentUpload(e, request.id)}
-                    // disabled={BRForm}
-                    placeholder={"uploaded"}
-                  />
-                )}
-              </td>
-            </tr>
-          ))}
+                  {request.status != "Approved" && request.status != "Denied" && (
+                    <button
+                      onClick={() => handleResponse(request.id, false)}
+                      style={{
+                        backgroundColor: "red",
+                        padding: 10,
+                        marginRight: 10,
+                        borderWidth: 0,
+                        borderRadius: 10,
+                        color: "white",
+                      }}
+                      disabled={request.status === "Approved"}
+                    >
+                      {request.status === "Approved" ? "Approved" : "Deny"}
+                    </button>
+                  )}
+                </td>
+                <td>
+                  {/* Upload Document */}
+                  {request?.BRForm != null ? (
+                    <button
+                      onClick={() =>
+                        handleResponse(
+                          request.id,
+                          true,
+                          request.formData?.emailAddress,
+                          request.formData?.fullName,
+                          request.formData?.businessName
+                        )
+                      }
+                      style={{
+                        backgroundColor:
+                          request.status === "Approved"
+                            ? "green"
+                            : request.status === "Denied"
+                            ? "red"
+                            : "blue",
+                        padding: 10,
+                        marginRight: 10,
+                        borderWidth: 0,
+                        borderRadius: 10,
+                        color: "white",
+                      }}
+                      disabled={
+                        request.status === "Approved" ||
+                        request.status === "Denied"
+                      }
+                    >
+                      {request.status == "Approved"
+                        ? "Uploaded"
+                        : request.status == "Denied"
+                        ? "Denied"
+                        : "Pending"}
+                    </button>
+                  ) : (
+                    <input
+                      type="file"
+                      accept="application/pdf"
+                      id={`document-upload-${request.id}`}
+                      className="document-input"
+                      onChange={(e) => handleDocumentUpload(e, request.id)}
+                      // disabled={BRForm}
+                      placeholder={"uploaded"}
+                    />
+                  )}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
