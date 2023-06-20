@@ -98,57 +98,70 @@ function Documents() {
           </tr>
         </thead>
         <tbody>
-          {forms.map((form) => (
-            <tr key={form.id}>
-              <td>{form.formData.businessName}</td>
-              <td>{form.formData.alternativeName}</td>
-              <td>
-                {amount
-                  ? amount.toLocaleString("en-NG", {
-                      style: "currency",
-                      currency: "NGN",
-                    })
-                  : "-"}
-              </td>
-              <td>{form.status}</td>
-              <td>
-                {form.status === "Approved" && !form.Paid ? (
-                  <PaystackButton
-                    publicKey="pk_test_9bfa277c5a6cc1af3619355614fa4769f43123d8"
-                    onClose={() => alert("Payment not completed")}
-                    text={form.paymentStatus === "paid" ? "Paid" : "Pay"}
-                    onSuccess={() => handleResponse(form.id)}
-                    email={form.formData.emailAddress}
-                    amount={500000}
-                    phone={form.formData.phone}
-                  />
-                ) : (
-                  <button
-                    disabled
-                    style={{
-                      backgroundColor: form.Paid == "Paid" ? "green" : "red",
-                      color: "#fff",
-                      cursor: "not-allowed",
-                    }}
-                  >
-                    {form.Paid ?? "Denied"}
-                  </button>
-                )}
-              </td>
+          {forms
+            .sort((a, b) => {
+              return a.createdAt < b.createdAt ? 1 : -1;
+            })
+            .map((form) => (
+              <tr key={form.id}>
+                <td>{form.formData.businessName}</td>
+                <td>{form.formData.alternativeName}</td>
+                <td>
+                  {amount
+                    ? amount.toLocaleString("en-NG", {
+                        style: "currency",
+                        currency: "NGN",
+                      })
+                    : "-"}
+                </td>
+                <td>{form.status}</td>
+                <td>
+                  {form.status === "Approved" && !form.Paid ? (
+                    <PaystackButton
+                      publicKey="pk_test_9bfa277c5a6cc1af3619355614fa4769f43123d8"
+                      onClose={() => alert("Payment not completed")}
+                      text={form.paymentStatus === "paid" ? "Paid" : "Pay"}
+                      onSuccess={() => handleResponse(form.id)}
+                      email={form.formData.emailAddress}
+                      amount={500000}
+                      phone={form.formData.phone}
+                    />
+                  ) : (
+                    <button
+                      disabled
+                      style={{
+                        backgroundColor:
+                          form.Paid == "Paid"
+                            ? "green"
+                            : form.status === "Pending"
+                            ? "orange"
+                            : "red",
+                        color: "#fff",
+                        cursor: "not-allowed",
+                      }}
+                    >
+                      {form.Paid
+                        ? "Paid"
+                        : form.status === "Pending"
+                        ? "Pending"
+                        : "Denied"}
+                    </button>
+                  )}
+                </td>
 
-              <td>
-                <button
-                  onClick={() => {
-                    window.open(form.BRForm, "_blank");
-                  }}
-                  disabled={form.Paid != "Paid"}
-                  style={{ backgroundColor: !form.Paid ? "grey" : "green" }}
-                >
-                  View
-                </button>
-              </td>
-            </tr>
-          ))}
+                <td>
+                  <button
+                    onClick={() => {
+                      window.open(form.BRForm, "_blank");
+                    }}
+                    disabled={form.Paid != "Paid"}
+                    style={{ backgroundColor: !form.Paid ? "grey" : "green" }}
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       <table>
@@ -163,7 +176,9 @@ function Documents() {
           </tr>
         </thead>
         <tbody>
-          {CRforms.map((form) => (
+          {CRforms.sort((a, b) => {
+            return a.createdAt < b.createdAt ? 1 : -1;
+          }).map((form) => (
             <tr key={form.id}>
               <td>{form.formData?.companyName}</td>
               <td>{form.formData?.alternativeName}</td>
@@ -191,12 +206,21 @@ function Documents() {
                   <button
                     disabled
                     style={{
-                      backgroundColor: form.Paid == "Paid" ? "green" : "red",
+                      backgroundColor:
+                        form.Paid == "Paid"
+                          ? "green"
+                          : form.status === "Pending"
+                          ? "orange"
+                          : "red",
                       color: "#fff",
                       cursor: "not-allowed",
                     }}
                   >
-                    {form.Paid ?? "Denied"}
+                    {form.Paid
+                      ? "Paid"
+                      : form.status === "Pending"
+                      ? "Pending"
+                      : "Denied"}
                   </button>
                 )}
               </td>
