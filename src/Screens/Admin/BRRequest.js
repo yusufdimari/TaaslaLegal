@@ -58,31 +58,31 @@ function BRRequests() {
     try {
       const docSnapshot = await getDoc(requestRef);
       if (docSnapshot.exists()) {
-        if (docSnapshot.data().BRForm != null || !response) {
-          await updateDoc(requestRef, {
+        // if (docSnapshot.data().BRForm != null || !response) {
+        await updateDoc(requestRef, {
+          status: response ? "Approved" : "Denied",
+        });
+        send(
+          "service_e7d1yh7",
+          "template_svfjads",
+          {
+            to_name: name,
+            approved_name: businessName,
+            user_email: email,
             status: response ? "Approved" : "Denied",
-          });
-          send(
-            "service_e7d1yh7",
-            "template_svfjads",
-            {
-              to_name: name,
-              approved_name: businessName,
-              user_email: email,
-              status: response ? "Approved" : "Denied",
-            },
-            "8i7iOjpB4ANXnSK9u"
-          ).then(
-            (result) => {
-              console.log("email sent", result.text);
-            },
-            (error) => {
-              console.log(error.text);
-            }
-          );
-        } else {
-          return alert("Please Upload File");
-        }
+          },
+          "8i7iOjpB4ANXnSK9u"
+        ).then(
+          (result) => {
+            console.log("email sent", result.text);
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
+        // } else {
+        //   return alert("Please Upload File");
+        // }
         console.log("updated", docSnapshot.data().BRForm == null);
       } else {
         console.log("Document does not exist!");
