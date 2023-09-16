@@ -118,7 +118,10 @@ function Documents() {
                 <td>
                   {form.status === "Approved" && !form.Paid ? (
                     <PaystackButton
-                      publicKey="pk_test_9bfa277c5a6cc1af3619355614fa4769f43123d8"
+                      publicKey={process.env.REACT_APP_PAYSTACK_PUBLIC_KEY}
+                      // publicKey={
+                      //   "pk_live_b9a736010a36764756554fc43dcd40f4b78d16e1"
+                      // }
                       onClose={() => alert("Payment not completed")}
                       text={form.paymentStatus === "paid" ? "Paid" : "Pay"}
                       onSuccess={() => handleResponse(form.id)}
@@ -194,7 +197,8 @@ function Documents() {
               <td>
                 {form.status === "Approved" && !form.Paid ? (
                   <PaystackButton
-                    publicKey="pk_test_9bfa277c5a6cc1af3619355614fa4769f43123d8"
+                    // publicKey="pk_test_9bfa277c5a6cc1af3619355614fa4769f43123d8"
+                    publicKey={process.env.REACT_APP_PAYSTACK_PUBLIC_KEY}
                     onClose={() => alert("Payment not completed")}
                     text={form.paymentStatus === "paid" ? "Paid" : "Pay"}
                     onSuccess={() => handleResponse(form.id)}
