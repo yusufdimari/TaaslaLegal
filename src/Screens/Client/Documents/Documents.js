@@ -19,7 +19,9 @@ function Documents() {
   const [CRforms, CRsetForms] = useState([]);
   const db = getFirestore();
   const { user } = useAuth();
-  let amount = 5000;
+  let businessNameamount = 30000;
+  let companyamount = 60000;
+
 
   const fetchForms = async () => {
     try {
@@ -107,8 +109,8 @@ function Documents() {
                 <td>{form.formData.businessName}</td>
                 <td>{form.formData.alternativeName}</td>
                 <td>
-                  {amount
-                    ? amount.toLocaleString("en-NG", {
+                  {businessNameamount
+                    ? businessNameamount.toLocaleString("en-NG", {
                         style: "currency",
                         currency: "NGN",
                       })
@@ -126,7 +128,7 @@ function Documents() {
                       text={form.paymentStatus === "paid" ? "Paid" : "Pay"}
                       onSuccess={() => handleResponse(form.id)}
                       email={form.formData.emailAddress}
-                      amount={500000}
+                      amount={businessNameamount*100}
                       phone={form.formData.phone}
                     />
                   ) : (
@@ -186,8 +188,8 @@ function Documents() {
               <td>{form.formData?.companyName}</td>
               <td>{form.formData?.alternativeName}</td>
               <td>
-                {amount
-                  ? amount.toLocaleString("en-NG", {
+                {companyamount
+                  ? companyamount.toLocaleString("en-NG", {
                       style: "currency",
                       currency: "NGN",
                     })
@@ -203,7 +205,7 @@ function Documents() {
                     text={form.paymentStatus === "paid" ? "Paid" : "Pay"}
                     onSuccess={() => handleResponse(form.id)}
                     email={form.formData.emailAddress}
-                    amount={500000}
+                    amount={companyamount*100}
                     phone={form.formData.phone}
                   />
                 ) : (
